@@ -132,7 +132,9 @@ public class Merchant {
                        price: String,
                        transfers: [String: String]? = nil,
                        privateKey: String,
-                       callback: String = "",
+                       callback: String,
+                       cardDenom: String,
+                       cardAmount: String,
                        successCallback: @escaping (_ value: String) -> (),
                        errorCallback: @escaping FPErrorCallback) {
         
@@ -147,6 +149,8 @@ public class Merchant {
                            transfers: transfers,
                            privateKey: privateKey,
                            callback: callback,
+                           cardDenom: cardDenom,
+                           cardAmount: cardAmount,
                            successCallback: successCallback,
                            errorCallback: errorCallback)
     }
@@ -157,6 +161,8 @@ public class Merchant {
                        transfers: [String: String]? = nil,
                        privateKey: String,
                        callback: String,
+                       cardDenom: String,
+                       cardAmount: String,
                        successCallback: @escaping (_ value: String) -> (),
                        errorCallback: @escaping FPErrorCallback) {
         
@@ -171,6 +177,14 @@ public class Merchant {
             labels.append(label)
         }
         params.labels = labels
+        
+        if cardDenom != "" {
+            var deduction = Deduction()
+            deduction.denom = cardDenom
+            deduction.amount = cardAmount
+            deduction.way = .QUOTA
+            params.deduction = deduction
+        }
         
         //判断是否需要转账
         if (transfers != nil && transfers!.count > 0) {
@@ -211,14 +225,14 @@ public class Merchant {
                                 amount: Decimal(Double(price) ?? 0.0))
         print("amount:\(amount)")
         self.newUserOnsaleRequset(denom: denom,
-                           tokenids: tokenids,
-                           price: amount,
-                           hash: hash,
-                           transfers: transfers,
-                           privateKey: privateKey,
-                           callback: callback,
-                           successCallback: successCallback,
-                           errorCallback: errorCallback)
+                               tokenids: tokenids,
+                               price: amount,
+                               hash: hash,
+                               transfers: transfers,
+                               privateKey: privateKey,
+                               callback: callback,
+                               successCallback: successCallback,
+                               errorCallback: errorCallback)
     }
     
     func newUserOnsaleRequset(denom: String,
