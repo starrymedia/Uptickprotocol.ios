@@ -153,25 +153,36 @@ open class NFTSession {
     ///   - privateKey: 私钥
     ///   - successCallback: successCallback description
     ///   - errorCallback: errorCallback description
-    func burnToken(owner: String,
+    public func burnTokens(owner: String,
                    denom: String,
-                   tokenId: String,
+                   tokenIds: [String],
                    privateKey: String,
                    gasLimit: UInt64 = 0,
                    method: RpcMethods,
                    successCallback: @escaping (_ string: BroadcastModel) -> (),
                    errorCallback: @escaping FPErrorCallback) {
         
-        var msgBurnNFT = NftMsgBurnNFT()
-        msgBurnNFT.sender = owner
-        msgBurnNFT.denomID = denom
-        msgBurnNFT.id = tokenId
-
         
         var txBody = TxUtils.getBody(meno: "", timeoutHeight: 0)
-        if let any = TxUtils.getProtobufAny(message: msgBurnNFT, typePrefix: "") {
-            txBody.messages.append(any)
+        for tokenId in tokenIds {
+//            var mintNft = NftMsgMintNFT()
+//            mintNft.data = data
+//            mintNft.denomID = denom
+//            mintNft.uri = uri
+//            mintNft.name = name
+//            mintNft.id = tokenId
+//            mintNft.sender = sender
+//            mintNft.recipient = recipient
+            var msgBurnNFT = NftMsgBurnNFT()
+            msgBurnNFT.sender = owner
+            msgBurnNFT.denomID = denom
+            msgBurnNFT.id = tokenId
+
+            if let any = TxUtils.getProtobufAny(message: msgBurnNFT, typePrefix: "") {
+                txBody.messages.append(any)
+            }
         }
+             
                 
         TxService.signTx(txBody: txBody,
                          gasLimit: gasLimit,

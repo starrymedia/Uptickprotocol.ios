@@ -105,9 +105,9 @@ open class AbstractService  {
                            successCallback: @escaping (_ broadcastModel: BroadcastModel) -> (),
                            errorCallback: @escaping FPErrorCallback) {
         
-        NFTService.burnToken(owner: owner,
+        NFTService.burnTokens(owner: owner,
                              denom: nftId,
-                             tokenId: tokenId,
+                             tokenIds: [tokenId],
                              privateKey: privateKey,
                              method: method) { broadcastModel in
             successCallback(broadcastModel)

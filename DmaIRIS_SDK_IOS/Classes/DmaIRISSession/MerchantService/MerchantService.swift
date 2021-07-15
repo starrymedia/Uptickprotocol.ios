@@ -399,7 +399,7 @@ public class Merchant {
                 if responseModel.success {
                     successCallback()
                 } else {
-                    errorCallback(responseModel.msg ?? "")
+                    errorCallback(responseModel.msg ?? "offsale error")
                 }
             }
         } errorCallBack: { error in
