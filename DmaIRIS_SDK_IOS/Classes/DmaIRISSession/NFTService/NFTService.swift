@@ -307,22 +307,6 @@ open class NFTSession {
                               successCallback: @escaping (_ res: BroadcastModel) -> (),
                               errorCallback: @escaping FPErrorCallback) {
         
-//        var txBody = TxUtils.getBody(meno: memo, timeoutHeight: 0)
-//        for tokenId in tokenIds {
-//            var transferNFT = NftMsgTransferNFT()
-//            transferNFT.denomID = denom
-//            transferNFT.uri = "[do-not-modify]"
-//            transferNFT.name = "[do-not-modify]"
-//            transferNFT.data = "[do-not-modify]"
-//            transferNFT.id = tokenId
-//            transferNFT.sender = sender
-//            transferNFT.recipient = recipient
-//
-//            if let any = TxUtils.getProtobufAny(message: transferNFT,typePrefix: "") {
-//                txBody.messages.append(any)
-//            }
-//        }
-        
         let txBody = self.getTransferTokenBody(sender: sender,
                                                recipient: recipient,
                                                denom: denom,
